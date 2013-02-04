@@ -1,11 +1,17 @@
 #include <cstdlib>
 #include <ctime>
-#include "individual.hh"
+#include <iostream>
+#include "population.hh"
 
 int main ()
 {
     srand(time(NULL));
-    Individual i;
-    i.evaluate ();
+    Population p (6);
+    p.sort ();
+    while (true)
+    {
+        p.next_gen ();
+        p.sort ();
+    }
     return 0;
 }

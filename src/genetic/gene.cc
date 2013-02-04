@@ -16,14 +16,10 @@ Gene::~Gene ()
 
 void Gene::evolve ()
 {
-    if (rand () % 100 == 0)
-        lr_arrow_ = static_cast<e_lr_key>(rand () % 2);
-    if (rand () % 100 == 0)
-        ud_arrow_ = static_cast<e_ud_key>(rand () % 3);
-    if (rand () % 100 == 0)
-        a_button_ = rand () % 2;
-    if (rand () % 100 == 0)
-        b_button_ = rand () % 2;
+    lr_arrow_ = static_cast<e_lr_key>(rand () % 2);
+    ud_arrow_ = static_cast<e_ud_key>(rand () % 3);
+    a_button_ = rand () % 2;
+    b_button_ = rand () % 2;
 }
 
 std::string Gene::extract ()

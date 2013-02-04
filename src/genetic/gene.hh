@@ -1,6 +1,8 @@
 #ifndef GENE_HH
 # define GENE_HH
 
+# include <string>
+
 typedef enum LR_KEY
 {
     LR_NONE,
