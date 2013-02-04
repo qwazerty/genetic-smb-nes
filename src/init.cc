@@ -5,11 +5,17 @@
 
 int main ()
 {
+    int gen = 0;
     srand(time(NULL));
-    Population p (6);
+    std::cout << "===================" << std::endl;
+    std::cout << "Generation: " << gen << std::endl;
+    Population p (10);
     p.sort ();
     while (true)
     {
+        ++gen;
+        std::cout << "===================" << std::endl;
+        std::cout << "Generation: " << gen << std::endl;
         p.next_gen ();
         p.sort ();
     }

@@ -13,7 +13,7 @@ check:
 	./genetic-smb-nes && fceux smb.zip --loadlua smb.lua
 
 last-check:
-	fceux smb.zip --loadlua smb.lua
+	fceux Super\ Mario\ Bros.zip --loadlua smb.lua
 
 doc:
 	doxygen doc/Doxyfile

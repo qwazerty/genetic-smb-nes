@@ -11,7 +11,6 @@ Individual::Individual ()
 {
     for (int i = 0; i < 1000; ++i)
         genome_.push_back (Gene ());
-    evaluate ();
 }
 
 Individual::Individual (std::vector<Gene> &genome)
@@ -31,12 +30,11 @@ Individual::Individual (Individual &i1, Individual &i2)
 {
     for (int i = 0; i < 1000; ++i)
     {
-        if (rand () % 2 == 0)
+        if (rand () % 100 <= 90)
             genome_.push_back (i1.genome_get (i));
         else
             genome_.push_back (i2.genome_get (i));
     }
-    evaluate ();
 }
 
 Individual::~Individual ()
@@ -58,7 +56,9 @@ void Individual::mutate ()
     for (int i = 0; i < 1000; ++i)
     {
         if (rand () % 100 == 0)
+        {
             genome_[i].evolve ();
+        }
     }
 }
 
@@ -83,6 +83,8 @@ void Individual::generate_lua_ ()
         << "        + (memory.readbyte(0x07e0) * 1000)" << std::endl
         << "        + (memory.readbyte(0x07e1) * 100)" << std::endl
         << "        + (memory.readbyte(0x07e2) * 10)" << std::endl
+        << "        + (memory.readbyte(0x006d) * 256)" << std::endl
+        << "        + (memory.readbyte(0x0086))" << std::endl
         << "        .. \"\"" << std::endl
         << "    emu.print(\"<score>\" .. score .. \"</score>\")" << std::endl
         << "end" << std::endl << std::endl;
