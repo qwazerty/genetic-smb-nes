@@ -9,26 +9,26 @@
 
 Individual::Individual ()
 {
-    for (int i = 0; i < 1000; ++i)
+    for (int i = 0; i < 500; ++i)
         genome_.push_back (Gene ());
 }
 
 Individual::Individual (std::vector<Gene> &genome)
 {
-    for (Gene &g : genome)
+    for (Gene& g : genome)
         g.evolve ();
 }
 
 Individual::Individual (const Individual &in)
 {
-    for (int i = 0; i < 1000; ++i)
+    for (int i = 0; i < 500; ++i)
         genome_.push_back (in.genome_get (i));
     score_ = in.score_get ();
 }
 
 Individual::Individual (Individual &i1, Individual &i2)
 {
-    for (int i = 0; i < 1000; ++i)
+    for (int i = 0; i < 500; ++i)
     {
         if (rand () % 100 <= 80)
             genome_.push_back (i1.genome_get (i));
@@ -53,11 +53,11 @@ Gene Individual::genome_get (int n) const
 
 void Individual::mutate ()
 {
-    for (int i = 0; i < 1000; ++i)
+    for (Gene& g : genome_)
     {
-        if (rand () % 50 == 0)
+        if (rand () % 80 == 0)
         {
-            genome_[i].evolve ();
+            g.evolve ();
         }
     }
 }
@@ -83,7 +83,7 @@ void Individual::generate_lua (std::string file)
         << "        + (memory.readbyte(0x07e0) * 1000)" << std::endl
         << "        + (memory.readbyte(0x07e1) * 100)" << std::endl
         << "        + (memory.readbyte(0x07e2) * 10)" << std::endl
-        << "        + (memory.readbyte(0x006d) * 256)" << std::endl
+        << "        + (memory.readbyte(0x006d) * 512)" << std::endl
         << "        + (memory.readbyte(0x0086))" << std::endl
         << "        .. \"\"" << std::endl
         << "    emu.print(\"<score>\" .. score .. \"</score>\")" << std::endl
@@ -104,9 +104,9 @@ void Individual::generate_lua (std::string file)
         << " do" << std::endl
         << "    newlevel = memory.readbyte(0x0760)" << std::endl
         << "    state = memory.readbyte(0x000e)" << std::endl
-        << "    joypad.set(1, table[i % 1000])" << std::endl
+        << "    joypad.set(1, table[i % 500])" << std::endl
         << "    emu.frameadvance()" << std::endl
-        << "    j = (j + 1) % 10" << std::endl
+        << "    j = (j + 1) % 20" << std::endl
         << "    if (j == 0) then" << std::endl
         << "        i = i + 1" << std::endl
         << "    end" << std::endl
@@ -126,7 +126,7 @@ void Individual::evaluate ()
     {
         close (fd[0]);
         dup2 (fd[1], STDOUT_FILENO);
-        execl ("/usr/bin/unbuffer", "unbuffer", "/usr/bin/fceux",
+        execl ("./bin/unbuffer", "unbuffer", "./bin/fceux",
             "smb.zip", "--loadlua", "smb.lua", NULL);
         perror ("fork");
     }
