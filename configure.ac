@@ -8,6 +8,8 @@ AM_CXXFLAGS="-Wall -Wextra -Werror -std=c++0x -pedantic"
 
 AC_ARG_WITH([debug])
 AC_ARG_WITH([clang])
+AM_INIT_AUTOMAKE([silent-rules])
+AM_SILENT_RULES([yes])
 
 if test "$with_clang" = "yes"; then
     CXX="clang++"
