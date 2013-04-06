@@ -63,14 +63,20 @@ void Population::next_gen ()
         ++i;
     }
     std::cout << "Best 1: " << i1->score_get () << std::endl;
+    i1->generate_lua ("best_1.lua");
     std::cout << "Best 2: " << i2->score_get () << std::endl;
+    i2->generate_lua ("best_2.lua");
     std::list<Individual> new_gen;
-    for (int i = 0; i < max_gen_; ++i)
+    for (int i = 0; i < max_gen_ / 2; ++i)
     {
-        if (i < max_gen_ / 2)
+        if (i < max_gen_ / 4)
             new_gen.push_back (Individual (*i1, *i2));
         else
             new_gen.push_back (Individual (*i2, *i1));
+    }
+    for (int i = max_gen_ / 2; i < max_gen_; ++i)
+    {
+        new_gen.push_back (Individual ());
     }
     for (Individual &i : new_gen)
     {

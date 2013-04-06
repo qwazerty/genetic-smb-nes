@@ -9,7 +9,7 @@ int main ()
     srand(time(NULL));
     std::cout << "===================" << std::endl;
     std::cout << "Generation: " << gen << std::endl;
-    Population p (10);
+    Population p (12);
     p.sort ();
     while (true)
     {

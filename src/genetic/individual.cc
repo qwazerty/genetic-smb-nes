@@ -30,7 +30,7 @@ Individual::Individual (Individual &i1, Individual &i2)
 {
     for (int i = 0; i < 1000; ++i)
     {
-        if (rand () % 100 <= 90)
+        if (rand () % 100 <= 80)
             genome_.push_back (i1.genome_get (i));
         else
             genome_.push_back (i2.genome_get (i));
@@ -55,16 +55,16 @@ void Individual::mutate ()
 {
     for (int i = 0; i < 1000; ++i)
     {
-        if (rand () % 100 == 0)
+        if (rand () % 50 == 0)
         {
             genome_[i].evolve ();
         }
     }
 }
 
-void Individual::generate_lua_ ()
+void Individual::generate_lua (std::string file)
 {
-    std::ofstream ofs ("smb.lua");
+    std::ofstream ofs (file);
 
     ofs << "savestate.load(savestate.object(1))" << std::endl
         << "emu.speedmode(\"maximum\")" << std::endl
@@ -120,14 +120,14 @@ void Individual::evaluate ()
     int fd[2];
     pid_t pid;
 
-    generate_lua_ ();
+    generate_lua ("smb.lua");
     pipe(fd);
     if ((pid = fork ()) == 0)
     {
         close (fd[0]);
         dup2 (fd[1], STDOUT_FILENO);
         execl ("/usr/bin/unbuffer", "unbuffer", "/usr/bin/fceux",
-            "Super Mario Bros.zip", "--loadlua", "smb.lua", NULL);
+            "smb.zip", "--loadlua", "smb.lua", NULL);
         perror ("fork");
     }
     else

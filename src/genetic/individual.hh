@@ -2,6 +2,7 @@
 # define INDIVIDUAL_HH
 
 # include <vector>
+# include <iostream>
 
 class Gene;
 
@@ -17,10 +18,10 @@ class Individual
         Gene genome_get (int n) const;
         void mutate ();
         void evaluate ();
+        void generate_lua (std::string file);
     private:
         std::vector<Gene> genome_;
         int score_;
-        void generate_lua_ ();
 };
 
 #endif /* !INDIVIDUAL_HH */
