@@ -4,7 +4,7 @@ AC_CONFIG_AUX_DIR(build-aux)
 AC_CONFIG_FILES(Makefile
                 src/genetic/Makefile)
 
-AM_CXXFLAGS="-Wall -Wextra -Werror -std=c++0x -pedantic"
+AM_CXXFLAGS="-Wall -Wextra -Werror -std=c++0x -pedantic -lpthread"
 
 AC_ARG_WITH([debug])
 AC_ARG_WITH([clang])

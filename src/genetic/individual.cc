@@ -51,11 +51,11 @@ Gene Individual::genome_get (int n) const
     return genome_[n];
 }
 
-void Individual::mutate ()
+void Individual::mutate (int coef)
 {
     for (Gene& g : genome_)
     {
-        if (rand () % 80 == 0)
+        if (rand () % coef == 0)
         {
             g.evolve ();
         }
@@ -114,20 +114,26 @@ void Individual::generate_lua (std::string file)
         << "print_score ()" << std::endl;
 }
 
-void Individual::evaluate ()
+std::thread Individual::spawn(int i)
+{
+    return std::thread(&Individual::evaluate, this, i);
+}
+
+void Individual::evaluate (int i)
 {
     int result = 0;
     int fd[2];
     pid_t pid;
 
-    generate_lua ("smb.lua");
+    std::string str = std::string("smb" + std::to_string(i) + ".lua");
+    generate_lua(str);
     pipe(fd);
     if ((pid = fork ()) == 0)
     {
         close (fd[0]);
         dup2 (fd[1], STDOUT_FILENO);
         execl ("./bin/unbuffer", "unbuffer", "./bin/fceux",
-            "smb.zip", "--loadlua", "smb.lua", NULL);
+            "smb.zip", "--loadlua", str.c_str(), NULL);
         perror ("fork");
     }
     else

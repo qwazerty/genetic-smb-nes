@@ -3,6 +3,7 @@
 
 # include <vector>
 # include <iostream>
+# include <thread>
 
 class Gene;
 
@@ -16,8 +17,9 @@ class Individual
         ~Individual ();
         int score_get () const;
         Gene genome_get (int n) const;
-        void mutate ();
-        void evaluate ();
+        void mutate (int coef);
+        std::thread spawn(int i);
+        void evaluate (int i);
         void generate_lua (std::string file);
     private:
         std::vector<Gene> genome_;

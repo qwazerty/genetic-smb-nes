@@ -1,4 +1,6 @@
 #include <iostream>
+#include <thread>
+#include <vector>
 #include "individual.hh"
 #include "gene.hh"
 #include "population.hh"
@@ -10,9 +12,11 @@ Population::Population (int max)
         generation_.push_back (Individual ());
     }
     max_gen_ = max;
+    int j = 0;
     for (Individual& i : generation_)
     {
-        i.evaluate ();
+        i.evaluate (j);
+        ++j;
     }
 }
 
@@ -78,10 +82,17 @@ void Population::next_gen ()
     {
         new_gen.push_back (Individual ());
     }
-    for (Individual &i : new_gen)
+    int j = 0;
+    std::vector<std::thread> threads = std::vector<std::thread>();
+    for (Individual& i : new_gen)
     {
-        i.mutate ();
-        i.evaluate ();
+        i.mutate (20);
+        threads.push_back(i.spawn(j));
+        ++j;
+    }
+    for (std::thread& t : threads)
+    {
+        t.join();
     }
     new_gen.push_back (Individual (*i1));
     new_gen.push_back (Individual (*i2));
