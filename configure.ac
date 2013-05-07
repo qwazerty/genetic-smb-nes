@@ -30,6 +30,18 @@ AC_SUBST([PYTHON])
 AC_SUBST([AM_CXXFLAGS])
 AM_PROG_AR
 
+AC_DEFUN([AC_PROG_FCEUX], [AC_CHECK_PROG(FCEUX,fceux,yes)])
+AC_PROG_FCEUX
+if test x"${FCEUX}" != x"yes" ; then
+    AC_MSG_ERROR([Please install Fceux before trying to build.])
+fi
+
+AC_DEFUN([AC_PROG_UNBUFFER], [AC_CHECK_PROG(UNBUFFER,unbuffer,yes)])
+AC_PROG_UNBUFFER
+if test x"${UNBUFFER}" != x"yes" ; then
+    AC_MSG_ERROR([Please install unbuffer before trying to build.])
+fi
+
 AM_INIT_AUTOMAKE(foreign -Wall)
 
 AC_OUTPUT
