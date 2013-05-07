@@ -6,6 +6,7 @@
 #include <csignal>
 #include "gene.hh"
 #include "individual.hh"
+#include "variables.hh"
 
 Individual::Individual ()
 {
@@ -30,7 +31,7 @@ Individual::Individual (Individual &i1, Individual &i2)
 {
     for (int i = 0; i < 500; ++i)
     {
-        if (rand () % 100 <= 80)
+        if (rand () % 100 <= PARENTS_RATE)
             genome_.push_back (i1.genome_get (i));
         else
             genome_.push_back (i2.genome_get (i));
@@ -53,9 +54,10 @@ Gene Individual::genome_get (int n) const
 
 void Individual::mutate (int coef)
 {
+    (void) coef;
     for (Gene& g : genome_)
     {
-        if (rand () % coef == 0)
+        if (rand () % 100 < MUTATE_RATE)
         {
             g.evolve ();
         }

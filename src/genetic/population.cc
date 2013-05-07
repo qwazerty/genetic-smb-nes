@@ -13,10 +13,15 @@ Population::Population (int max)
     }
     max_gen_ = max;
     int j = 0;
+    std::vector<std::thread> threads = std::vector<std::thread>();
     for (Individual& i : generation_)
     {
-        i.evaluate (j);
+        threads.push_back(i.spawn(j));
         ++j;
+    }
+    for (std::thread& t : threads)
+    {
+        t.join();
     }
 }
 
@@ -71,16 +76,12 @@ void Population::next_gen ()
     std::cout << "Best 2: " << i2->score_get () << std::endl;
     i2->generate_lua ("best_2.lua");
     std::list<Individual> new_gen;
-    for (int i = 0; i < max_gen_ / 2; ++i)
+    for (int i = 0; i < max_gen_; ++i)
     {
-        if (i < max_gen_ / 4)
+        if (i < max_gen_ / 2)
             new_gen.push_back (Individual (*i1, *i2));
         else
             new_gen.push_back (Individual (*i2, *i1));
-    }
-    for (int i = max_gen_ / 2; i < max_gen_; ++i)
-    {
-        new_gen.push_back (Individual ());
     }
     int j = 0;
     std::vector<std::thread> threads = std::vector<std::thread>();
