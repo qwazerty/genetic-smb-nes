@@ -10,7 +10,7 @@ This file contains all the informations needed to correctly use this product.
 First, to compile the solution, you will need the make command. You can compile
 the solution like this:
 
-42sh$ make
+42sh$ ./bootstrap && ./configure && make
 
 Where '42sh$' represent your shell. The following options are also available:
 
